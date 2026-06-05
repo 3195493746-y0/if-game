@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   全局字体导入
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+/* ==========================================
+   CSS 变量 —— 深色文学主题
+   ========================================== */
+:root {
+  /* 核心色板 */
+  --ink: #1a1611;
+  --ink-deep: #0d0b08;
+  --parchment: #f5f0e8;
+  --parchment-light: #faf7f2;
+  --dust: #8c8070;
+  --dust-light: #b5a898;
+  --amber: #c8962a;
+  --amber-warm: #d4a843;
+  --crimson: #8b2635;
+  --sage: #4a6741;
+
+  /* 玻璃态 */
+  --glass: rgba(26, 22, 17, 0.75);
+  --glass-light: rgba(245, 240, 232, 0.08);
+  --glass-border: rgba(245, 240, 232, 0.12);
+
+  /* 文字大小 */
+  --text-size-sm: 0.875rem;
+  --text-size-md: 1rem;
+  --text-size-lg: 1.125rem;
+
+  /* 过渡 */
+  --ease-literary: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-fade: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   基础重置
+   ========================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--ink-deep);
+  color: var(--parchment);
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* ==========================================
+   文学性全局样式
+   ========================================== */
+
+/* 纸质纹理叠加 */
+.paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 玻璃态容器 */
+.glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(245, 240, 232, 0.06),
+    0 4px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 文字渐显动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textReveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 打字机光标 */
+.typing-cursor::after {
+  content: '|';
+  animation: breathe 1.2s ease-in-out infinite;
+  color: var(--amber);
+  margin-left: 1px;
+}
+
+/* 字体类 */
+.font-literary {
+  font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+}
+
+.font-ui {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+}
+
+/* 状态栏进度条 */
+.stat-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 128, 112, 0.4);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 128, 112, 0.7);
+}
+
+/* 选择高亮 */
+::selection {
+  background: rgba(200, 150, 42, 0.3);
+  color: var(--parchment-light);
+}
+
+/* 焦点样式 */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* 输入框通用 */
+.literary-input {
+  background: rgba(245, 240, 232, 0.04);
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  color: var(--parchment);
+  transition: border-color 0.3s var(--ease-literary),
+              background-color 0.3s var(--ease-literary);
+}
+
+.literary-input:focus {
+  background: rgba(245, 240, 232, 0.07);
+  border-color: rgba(200, 150, 42, 0.5);
+  outline: none;
+}
+
+.literary-input::placeholder {
+  color: var(--dust);
+}
+
+/* 按钮通用 */
+.btn-primary {
+  background: linear-gradient(135deg, #c8962a, #d4a843);
+  color: var(--ink-deep);
+  font-weight: 500;
+  transition: all 0.3s var(--ease-literary);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(200, 150, 42, 0.3);
+}
+
+.btn-primary:active {
+  transform: scale(0.98) translateY(0);
+}
+
+/* 背景图过渡 */
+.bg-cinematic {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1.5s ease;
+}
+
+/* 渐变遮罩 */
+.vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(13, 11, 8, 0.6) 100%
+  );
+}
+
+/* prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
